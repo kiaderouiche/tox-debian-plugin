@@ -12,10 +12,8 @@ def test_invalid_debian_package_name_cannot_be_fetched(cmd, initproj):
               no-such-debian-package=123.42
         '''
     })
-    result = cmd.run("tox", )
-    result.stdout.fnmatch_lines([
-        "E: Unable to locate package no-such-debian-package",
-    ])
+    result = cmd("tox")
+    assert "E: Unable to locate package no-such-debian-package" in result.out
     assert result.ret
 
 
@@ -28,8 +26,8 @@ def test_debian_package_will_be_extracted_into_virtual_env(cmd, initproj):
             commands= ls -1 .tox/python/bin
         '''
     })
-    result = cmd.run("tox", )
-    result.stdout.fnmatch_lines(["dot"])
+    result = cmd("tox")
+    assert "dot" in result.out
     assert result.ret == 0
 
 
@@ -43,8 +41,9 @@ def test_can_extract_multiple_packages(cmd, initproj):
             commands= ls -1 .tox/python/bin
         '''
     })
-    result = cmd.run("tox", )
-    result.stdout.fnmatch_lines(["dot", "vim*"])
+    result = cmd("tox")
+    assert "dot" in result.out
+    assert "vim" in result.out
     assert result.ret == 0
 
 
@@ -55,8 +54,8 @@ def test_empty_debian_dependency_dont_call_apt_get(cmd, initproj):
             debian_deps=
         '''
     })
-    result = cmd.run("tox", )
-    assert 'apt-get' not in result.stdout.str()
+    result = cmd("tox")
+    assert 'apt-get' not in result.out
     assert result.ret == 0
 
 
@@ -70,17 +69,13 @@ def test_can_pass_additional_options_to_apt_get(cmd, initproj):
               graphviz
         '''
     })
-    result = cmd.run("tox", )
-    result.stdout.fnmatch_lines(["*no-such-option*"])
+    result = cmd("tox")
+    assert "no-such-option" in result.out
     assert result.ret
 
 
-def test_install32_logs_its_actions(cmd, initproj):
-    assert_logs_actions(cmd, initproj, "py32")
-
-
-def test_install27_logs_its_actions(cmd, initproj):
-    assert_logs_actions(cmd, initproj, "py27")
+def test_install3_logs_its_actions(cmd, initproj):
+    assert_logs_actions(cmd, initproj, "py3")
 
 
 def assert_logs_actions(cmd, initproj, venv_name):
@@ -94,18 +89,8 @@ def assert_logs_actions(cmd, initproj, venv_name):
               graphviz
         '''.format(venv_name=venv_name)
     })
-    result = cmd.run("tox", )
-    result.stdout.fnmatch_lines([
-        "{} apt-get download: vim, graphviz".format(venv_name),
-        "{} dpkg extract: graphviz*".format(venv_name),
-        "{} copy: *bin/dot*".format(venv_name)
-    ])
-    # the order of the packages is provided by os.listdir(),
-    # thus, the order may vary between machines, therefore
-    # we need an extra individual fnmatch for vim
-    result.stdout.fnmatch_lines([
-        "{} apt-get download: vim, graphviz".format(venv_name),
-        "{} dpkg extract: vim*".format(venv_name),
-        "{} copy: *bin/vim*".format(venv_name),
-    ])
+    result = cmd("tox")
+    assert "{} apt-get download: vim, graphviz".format(venv_name) in result.out
+    assert "{} dpkg extract: graphviz".format(venv_name) in result.out
+    assert "{} dpkg extract: vim".format(venv_name) in result.out
     assert result.ret == 0

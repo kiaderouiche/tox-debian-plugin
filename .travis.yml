@@ -1,11 +1,23 @@
 language: python
 python:
-  - "2.7"
-  - "3.2"
-  - "3.4"
+  - "3.5"
+  - "3.6"
+env:
+  - TOX_VERSION="tox==3.0.*"
+  - TOX_VERSION="tox==3.1.*"
+  - TOX_VERSION="tox==3.2.*"
+  - TOX_VERSION="tox==3.3.*"
+  - TOX_VERSION="tox==3.4.*"
+  - TOX_VERSION="tox==3.5.*"
+  - TOX_VERSION="tox==3.6.*"
+  - TOX_VERSION="tox==3.7.*"
+  - TOX_VERSION="tox --upgrade"
+matrix:
+    allow_failures:
+        - env: TOX_VERSION="tox --upgrade"
 install:
   - pip install .
-  - pip install tox
+  - pip install $TOX_VERSION
   - pip install --upgrade setuptools
   - pip install pytest
 script: py.test tests
