@@ -20,17 +20,17 @@ def install_debian_deps(path, deps, opts, action):
 
     try:
         action.setactivity('apt-get download', ', '.join(deps))
-        action.popen(['apt-get', 'download'] + opts + deps, cwd=tmp_dir)
+        action.popen(['apt-get', 'download'] + opts + deps, cwd=py.path.local(tmp_dir))
         packages = fnmatch.filter(listdir(tmp_dir), '*.deb')
 
         for package in packages:
             action.setactivity('dpkg extract', package)
-            action.popen(['dpkg', '--vextract', package, curdir], cwd=tmp_dir)
+            action.popen(['dpkg', '--vextract', package, curdir], cwd=py.path.local(tmp_dir))
 
         tmp_usr = path_join(tmp_dir, 'usr')
         if isdir(tmp_usr):
             action.setactivity('copy', ', '.join(__iter_files(tmp_usr)))
-            action.popen(['cp', '-r'] + listdir(tmp_usr) + [path], cwd=tmp_usr)
+            action.popen(['cp', '-r'] + listdir(tmp_usr) + [path], cwd=py.path.local(tmp_usr))
 
     finally:
         rmtree(tmp_dir)
