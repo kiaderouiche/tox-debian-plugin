@@ -10,5 +10,5 @@ setup(
     version='0.1',
     packages=['tox_DEBIAN'],
     entry_points={'tox': ['DEBIAN = tox_DEBIAN']},
-    install_requires=['tox>=3.0, <3.8'],
+    install_requires=['tox>=3.0, <3.9'],
 )
