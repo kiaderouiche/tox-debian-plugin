@@ -67,7 +67,7 @@ pip install --upgrade setuptools
 ### Install `tox_DEBIAN`
 
 ```sh
-pip install git+https://github.com/balabit/tox-debian-plugin.git
+pip install tox_DEBIAN
 ```
 
 ## Test
@@ -75,7 +75,7 @@ pip install git+https://github.com/balabit/tox-debian-plugin.git
 ### Local `tox_DEBIAN` install
 
 ```sh
-git clone https://github.com/balabit/tox-debian-plugin.git
+git clone https://github.com/tpazderka/tox-debian-plugin.git
 pip install -e tox-debian-plugin
 ```
 
