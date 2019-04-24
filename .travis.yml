@@ -12,6 +12,10 @@ env:
   - TOX_VERSION="tox==3.6.*"
   - TOX_VERSION="tox==3.7.*"
   - TOX_VERSION="tox==3.8.*"
+  - TOX_VERSION="tox==3.9.*"
+  - TOX_VERSION="tox==3.10.*"
+  - TOX_VERSION="tox==3.11.*"
+  - TOX_VERSION="tox==3.12.*"
   - TOX_VERSION="tox --upgrade"
 matrix:
     allow_failures:
