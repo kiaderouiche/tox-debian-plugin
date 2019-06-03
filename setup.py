@@ -9,7 +9,7 @@ setup(
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     license="MIT license",
-    version='0.2',
+    version='0.3',
     packages=['tox_DEBIAN'],
     entry_points={'tox': ['DEBIAN = tox_DEBIAN']},
     install_requires=['tox>=3.0, <4.0'],
