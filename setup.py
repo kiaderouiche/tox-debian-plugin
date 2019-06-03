@@ -12,7 +12,7 @@ setup(
     version='0.2',
     packages=['tox_DEBIAN'],
     entry_points={'tox': ['DEBIAN = tox_DEBIAN']},
-    install_requires=['tox>=3.0, <3.9'],
+    install_requires=['tox>=3.0, <4.0'],
     python_requires='~=3.5',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
